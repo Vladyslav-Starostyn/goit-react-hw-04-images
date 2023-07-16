@@ -1,40 +1,35 @@
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { Overlay, ModalStyled } from 'components/Modal/ModalStyled';
-import { Component } from 'react';
 
-export class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.onModalKeydown);
-  }
+export const Modal = ({ onModalClose, largeImg, about }) => {
+  useEffect(() => {
+    const onModalKeydown = event => {
+      if (event.key === 'Escape') {
+        onModalClose();
+      }
+    };
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.onModalKeydown);
-  }
+    window.addEventListener('keydown', onModalKeydown);
+    return () => {
+      window.removeEventListener('keydown', onModalKeydown);
+    };
+  }, [onModalClose]);
 
-  onModalKeydown = event => {
-    if (event.key === 'Escape') {
-      this.props.onModalClose();
-    }
-  };
-
-  onBackdropClick = event => {
+  const onBackdropClick = event => {
     if (event.target === event.currentTarget) {
-      this.props.toggleModal();
+      onModalClose();
     }
   };
 
-  render() {
-    const { onModalClose, largeImg, about } = this.props;
-
-    return (
-      <Overlay onClick={onModalClose}>
-        <ModalStyled>
-          <img src={largeImg} alt={about} />
-        </ModalStyled>
-      </Overlay>
-    );
-  }
-}
+  return (
+    <Overlay onClick={onBackdropClick}>
+      <ModalStyled>
+        <img src={largeImg} alt={about} />
+      </ModalStyled>
+    </Overlay>
+  );
+};
 
 Modal.propTypes = {
   largeImg: PropTypes.string.isRequired,
