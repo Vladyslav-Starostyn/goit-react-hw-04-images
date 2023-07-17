@@ -7,9 +7,9 @@ import {
 } from 'components/ImageGalleryItem/ImageGalleryItemStyled';
 
 export const ImageGalleryItem = ({ webformatURL, largeImageURL, tags }) => {
-  const [isModalOpen, setisModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const toggleModal = () => setisModalOpen(!isModalOpen);
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   return (
     <GalleryItemStyled>
@@ -18,7 +18,7 @@ export const ImageGalleryItem = ({ webformatURL, largeImageURL, tags }) => {
         <Modal
           largeImg={largeImageURL}
           about={tags}
-          onModalClose={this.toggleModal}
+          onModalClose={toggleModal}
         />
       )}
     </GalleryItemStyled>
